@@ -21,14 +21,15 @@ describe('awebapp generator', function () {
 
   it('creates expected files', function (done) {
     var expected = [
-      // add files you expect to exist here.
-      '.jshintrc',
-      '.editorconfig'
+      'package.json',
+      'bower.json',
+      'Gruntfile.coffee',
+      '.editorconfig',
+      'app/index.html',
+      'app/styles/main.styl',
+      'app/scripts/main.js'
     ];
 
-    helpers.mockPrompt(this.app, {
-      'someOption': true
-    });
     this.app.options['skip-install'] = true;
     this.app.run({}, function () {
       helpers.assertFiles(expected);

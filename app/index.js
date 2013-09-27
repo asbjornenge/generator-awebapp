@@ -21,27 +21,22 @@ AwebappGenerator.prototype.askFor = function askFor() {
 
   // have Yeoman greet the user.
   console.log(this.yeoman);
-
-  var prompts = [{
-    type: 'confirm',
-    name: 'someOption',
-    message: 'Would you like to enable this option?',
-    default: true
-  }];
-
-  this.prompt(prompts, function (props) {
-    this.someOption = props.someOption;
-
-    cb();
-  }.bind(this));
+  cb();
 };
 
 AwebappGenerator.prototype.app = function app() {
   this.mkdir('app');
-  this.mkdir('app/templates');
+  this.mkdir('app/scripts');
+  this.mkdir('app/styles');
+  this.mkdir('app/images');
 
-  this.copy('_package.json', 'package.json');
-  this.copy('_bower.json', 'bower.json');
+  this.copy('package.json',     'package.json');
+  this.copy('bower.json',       'bower.json');
+  this.copy('Gruntfile.coffee', 'Gruntfile.coffee');
+
+  this.copy('index.html', 'app/index.html');
+  this.copy('main.styl',  'app/styles/main.styl');
+  this.copy('main.js',    'app/scripts/main.js');
 };
 
 AwebappGenerator.prototype.projectfiles = function projectfiles() {
