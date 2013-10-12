@@ -27,24 +27,33 @@ module.exports = (grunt) ->
                 files:
                     '.tmp/styles/main.css' : ['<%= yeoman.app %>/styles/*.styl']
 
-        ## CONCAT (for build only - else useminPrepare - or not? Might not be used anymore...)
+        ## CONCAT
         #
-
-        concat:
-            dist:
-                src  : ['.tmp/css/app.css'],
-                dest : '<%= yeoman.dist %>/rebl.css'
+        # Auto by useminPrepare
 
 
-        ## CSSMIN (for build only - else useminPrepare)
+        ## CSSMIN
         #
 
         cssmin:
-            dist:
+            options:
+                banner : '/* BANNER */'
+
+        ## REQUIREJS
+        #
+
+        requirejs:
+            app:
                 options:
-                    banner : '/* BANNER */'
-                files:
-                    '<%= yeoman.dist %>/rebl.css' : ['<%= yeoman.dist %>/rebl.css']
+                    baseUrl        : 'app/scripts/'
+                    mainConfigFile : 'app/scripts/main.js'
+                    name           : 'main'
+                    out            : 'dist/main.min.js'
+                    optimize       : 'uglify'
+                    almond         : true
+                    findNestedDependencies: true
+                    paths:
+                        jquery : '../bower_components/jquery/jquery'
 
         ## USEMIN PREPARE
         #
@@ -83,11 +92,11 @@ module.exports = (grunt) ->
         ## MOCHA
         #
 
-        mocha:
-            all:
+        mochaTest:
+            test:
                 options:
-                    run: true
-                    urls: ['http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html']
+                    reporter: 'nyan'
+                src: ['test/*.js']
 
         ## SERVER
         #
@@ -129,18 +138,25 @@ module.exports = (grunt) ->
                 ]
             server: '.tmp'
 
-
-        ## CONCURRENT
+        ## COPY
         #
 
-        concurrent:
-            server: [
-                'stylus:server'
-            ]
-            dist: [
-                'stylus:dist'
-                'htmlmin'
-            ]
+        copy:
+            dist:
+                files: [
+                    {
+                        src: 'dist/main.min.js'
+                        dest: 'dist/<%= pkg.version %>/main.min.js'
+                    }
+                    {
+                        src: 'dist/main.min.css'
+                        dest: 'dist/<%= pkg.version %>/main.min.css'
+                    }
+                    {
+                        src: 'dist/index.html'
+                        dest: 'dist/<%= pkg.version %>/index.html'
+                    }
+                ]
 
     #### TASKS ####
 
@@ -149,7 +165,7 @@ module.exports = (grunt) ->
 
     @registerTask 'server', (target) =>
         @task.run 'clean:server'
-        @task.run 'concurrent:server'
+        @task.run 'stylus:server'
         @task.run 'connect:livereload'
         @task.run 'watch'
 
@@ -157,25 +173,22 @@ module.exports = (grunt) ->
     #
 
     @registerTask 'test', (target = 'all') =>
-        @task.run 'clean:server'
-        @task.run 'connect:test'
-        @task.run 'mocha'
+        @task.run 'mochaTest'
 
     ## Build
     #
 
     @registerTask 'build', (target = 'all') =>
         @task.run 'clean:server'
-        @task.run 'clean:dist'
-        @task.run 'stylus:dist'
-        @task.run 'concat:dist'
-        @task.run 'cssmin:dist'
-        @task.run 'copy:dist'
+        @task.run 'stylus:server'
+        @task.run 'useminPrepare'
+        @task.run 'concat'
+        @task.run 'cssmin'
+        @task.run 'requirejs'
         @task.run 'htmlrefs:dist'
-        @task.run 'copy:server'
+        @task.run 'copy:dist'
 
     ## Default
     #
 
     @registerTask 'default', ['test']
-
