@@ -5,11 +5,11 @@ A webapp generator for [Yeoman](http://yeoman.io) tailored for me!
 Makes use of:
 
 * stylus
-* livescript
+* requirejs
 * mocha
-* other stuff...
 
 ## Getting Started
+If you haven't already, install yeoman.
 
 ```
 $ npm install -g yo
@@ -18,7 +18,7 @@ $ npm install -g yo
 To install generator-awebapp from npm, run:
 
 ```
-$ for now, clone the repo.
+$ npm install -g generator-awebapp
 ```
 
 Finally, initiate the generator:
