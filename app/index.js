@@ -29,6 +29,7 @@ AwebappGenerator.prototype.app = function app() {
   this.mkdir('app/scripts');
   this.mkdir('app/styles');
   this.mkdir('app/images');
+  this.mkdir('test');
 
   this.copy('package.json',     'package.json');
   this.copy('bower.json',       'bower.json');
@@ -37,6 +38,8 @@ AwebappGenerator.prototype.app = function app() {
   this.copy('index.html', 'app/index.html');
   this.copy('main.styl',  'app/styles/main.styl');
   this.copy('main.js',    'app/scripts/main.js');
+
+  this.copy('spec.js',    'test/spec.js');
 };
 
 AwebappGenerator.prototype.projectfiles = function projectfiles() {

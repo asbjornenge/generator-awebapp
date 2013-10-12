@@ -27,7 +27,8 @@ describe('awebapp generator', function () {
       '.editorconfig',
       'app/index.html',
       'app/styles/main.styl',
-      'app/scripts/main.js'
+      'app/scripts/main.js',
+      'test/spec.js'
     ];
 
     this.app.options['skip-install'] = true;
