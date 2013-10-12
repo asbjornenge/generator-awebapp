@@ -1,9 +1,9 @@
 {
   "name": "generator-awebapp",
-  "version": "0.0.0",
-  "description": "A generator for Yeoman",
+  "version": "0.1.0",
+  "description": "A Yeoman generator for webapps",
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator", "browser", "webapp", "generator", "javascript", "web", "buildtool"
   ],
   "homepage": "https://github.com/asbjornenge/generator-awebapp",
   "bugs": "https://github.com/asbjornenge/generator-awebapp/issues",
