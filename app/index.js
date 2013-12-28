@@ -50,4 +50,5 @@ AwebappGenerator.prototype.app = function app() {
 AwebappGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('editorconfig', '.editorconfig');
   this.copy('jshintrc', '.jshintrc');
+  this.copy('bowerrc', '.bowerrc');
 };

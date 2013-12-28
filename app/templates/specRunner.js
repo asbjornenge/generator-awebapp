@@ -1,6 +1,7 @@
 require.config({
     baseUrl : '../app/',
     paths: {
+        chai   : 'bower_components/chai/chai'
     },
     urlArgs: "v="+(new Date()).getTime()
 });

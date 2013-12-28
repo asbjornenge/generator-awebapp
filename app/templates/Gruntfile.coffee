@@ -25,7 +25,7 @@ module.exports = (grunt) ->
         stylus:
             app:
                 files:
-                    '.tmp/styles/main.css' : ['<%= yeoman.app %>/styles/*.styl']
+                    '.tmp/app/styles/main.css' : ['<%= yeoman.app %>/styles/*.styl']
 
         ## CONCAT
         #
