@@ -1,13 +1,9 @@
 require.config({
     baseUrl : '/scripts',
-    paths: {
-        jquery : '../bower_components/jquery/jquery'
-    }
+    paths: {}
 });
 
-require(['jquery'], function($) {
-    $(document).ready(function() {
-        console.log("eplekake2");
-    });
+require([], function() {
+    console.log('application ready')
 });
 

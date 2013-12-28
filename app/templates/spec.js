@@ -2,12 +2,16 @@
  *    Library test
  */
 
-'use strict'
+define(['chai'], function(chai) {
 
-var assert = require('assert');
+    describe('DUMMY TEST', function() {
 
-describe('Basic library test', function() {
-  it('should just work', function() {
-    assert.equal(true,true);
-  })
+        var assert = chai.assert;
+
+        it('Should call the callback', function() {
+            assert.ok(true)
+        })
+
+    })
+
 })

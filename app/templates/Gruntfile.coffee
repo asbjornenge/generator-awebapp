@@ -10,8 +10,8 @@ module.exports = (grunt) ->
     require('load-grunt-tasks')(grunt)
 
     config =
-        app  : 'app'
-        dist : 'dist'
+        app  : 'assets/app'
+        dist : 'assets/dist'
 
     #### INITCONFIG ####
 
@@ -23,7 +23,7 @@ module.exports = (grunt) ->
         #
 
         stylus:
-            server:
+            app:
                 files:
                     '.tmp/styles/main.css' : ['<%= yeoman.app %>/styles/*.styl']
 
@@ -39,21 +39,30 @@ module.exports = (grunt) ->
             options:
                 banner : '/* BANNER */'
 
+        ## REACT
+        #
+
+        react:
+            app:
+                options:
+                    extension:    'jsx'
+                    ignoreMTime:  false
+                files:
+                    '.tmp/app/components': '<%= yeoman.app %>/components'
+
         ## REQUIREJS
         #
 
         requirejs:
             app:
                 options:
-                    baseUrl        : 'app/scripts/'
-                    mainConfigFile : 'app/scripts/main.js'
+                    baseUrl        : '<%= yeoman.app %>/scripts/'
+                    mainConfigFile : '<%= yeoman.app %>/scripts/main.js'
                     name           : 'main'
-                    out            : 'dist/main.min.js'
+                    out            : '<%= yeoman.dist %>/main.min.js'
                     optimize       : 'uglify'
                     almond         : true
                     findNestedDependencies: true
-                    paths:
-                        jquery : '../bower_components/jquery/jquery'
 
         ## USEMIN PREPARE
         #
@@ -77,26 +86,17 @@ module.exports = (grunt) ->
         watch:
             styles:
                 files: ['<%= yeoman.app %>/styles/{,*/}*.styl']
-                tasks: ['stylus:server']
+                tasks: []
             livereload:
                 options:
                     livereload: '<%= connect.options.livereload %>'
                 files : [
-                    '<%= yeoman.app %>/*.html',
-                    '{.tmp,<%= yeoman.app %>}/styles/*.css',
-                    '{.tmp,<%= yeoman.app %>}/scripts/**/*.js',
-                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                    'tests/{,*/}*.js',
+                    '<%= yeoman.test %>/{,*/}*.js',
+                    '<%= yeoman.app %>/scripts/*.js',
+                    '<%= yeoman.app %>/components/*.jsx',
+                    '<%= yeoman.app %>/styles/{,*/}*.styl'
                 ]
-
-        ## MOCHA
-        #
-
-        mochaTest:
-            test:
-                options:
-                    reporter: 'nyan'
-                src: ['test/*.js']
+                tasks : ['stylus:app','react:app']
 
         ## SERVER
         #
@@ -112,19 +112,15 @@ module.exports = (grunt) ->
                     open: true
                     base: [
                         '.tmp'
-                        '<%= yeoman.app %>'
+                        'assets'
                     ]
-            test:
-                options:
-                    base: [
-                        '.tmp'
-                        'test'
-                        '<%= yeoman.app %>'
+                    middleware : (connect, options) -> [
+                        connect.static(options.base[0])
+                        connect.static(options.base[1])
                     ]
-            dist:
-                options:
-                    open: true
-                    base: '<%= yeoman.dist %>'
+
+        ## CLEAN
+        #
 
         clean:
             dist:
@@ -136,7 +132,7 @@ module.exports = (grunt) ->
                         '!<%= yeoman.dist %>/.git*'
                     ]
                 ]
-            server: '.tmp'
+            tmp: '.tmp'
 
         ## COPY
         #
@@ -164,23 +160,19 @@ module.exports = (grunt) ->
     #
 
     @registerTask 'server', (target) =>
-        @task.run 'clean:server'
-        @task.run 'stylus:server'
+        @task.run 'clean:tmp'
+        @task.run 'react:app'
+        @task.run 'stylus:app'
         @task.run 'connect:livereload'
         @task.run 'watch'
-
-    ## Test
-    #
-
-    @registerTask 'test', (target = 'all') =>
-        @task.run 'mochaTest'
 
     ## Build
     #
 
     @registerTask 'build', (target = 'all') =>
-        @task.run 'clean:server'
-        @task.run 'stylus:server'
+        @task.run 'clean:tmp'
+        @task.run 'react:app'
+        @task.run 'stylus:app'
         @task.run 'useminPrepare'
         @task.run 'concat'
         @task.run 'cssmin'

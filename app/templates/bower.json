@@ -2,8 +2,10 @@
   "name": "app",
   "version": "0.0.1",
   "dependencies": {
-    "jquery": "~1.10.2",
-    "requirejs": "~2.1.8"
+    "requirejs": "~2.1.8",
+    "chai": "~1.8.1",
+    "mocha": "~1.15.1",
+    "sinon": "~1.7.3"
   },
   "devDependencies": {}
 }

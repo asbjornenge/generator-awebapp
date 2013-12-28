@@ -25,10 +25,12 @@ describe('awebapp generator', function () {
       'bower.json',
       'Gruntfile.coffee',
       '.editorconfig',
-      'app/index.html',
-      'app/styles/main.styl',
-      'app/scripts/main.js',
-      'test/spec.js'
+      'assets/app/index.html',
+      'assets/app/styles/main.styl',
+      'assets/app/scripts/main.js',
+      'assets/test/spec.js',
+      'assets/test/specRunner.js',
+      'assets/test/index.html'
     ];
 
     this.app.options['skip-install'] = true;
